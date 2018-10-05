@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 // import { compose } from "redux";
 // import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
+import { firestoreConnect } from 'react-redux-firebase';
 
 class AddClient extends Component {
   state = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    balance: ""
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    balance: ''
   };
 
   onChange = e => {
@@ -26,13 +26,13 @@ class AddClient extends Component {
     const { firestore, history } = this.props;
 
     // If no balance, make 0
-    if (newClient.balance === "") {
+    if (newClient.balance === '') {
       newClient.balance = 0;
     }
 
     firestore
-      .add({ collection: "clients" }, newClient)
-      .then(() => history.push("/"));
+      .add({ collection: 'clients' }, newClient)
+      .then(() => history.push('/'));
   };
 
   render() {
@@ -102,8 +102,6 @@ class AddClient extends Component {
                   type="text"
                   className="form-control"
                   name="balance"
-                  minLength="2"
-                  required
                   onChange={this.onChange}
                   value={this.state.balance}
                 />
