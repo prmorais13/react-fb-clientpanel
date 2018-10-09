@@ -5,7 +5,7 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  disableBalanceOnAdd: false,
+  disableBalanceOnAdd: true,
   disableBalanceOnEdit: false,
   allowRegistration: false
 };
