@@ -83,7 +83,9 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  firebase: PropTypes.object.isRequired
+  firebase: PropTypes.object.isRequired,
+  notify: PropTypes.object.isRequired,
+  notifyUser: PropTypes.func.isRequired
 };
 export default compose(
   firebaseConnect(),
