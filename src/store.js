@@ -1,25 +1,25 @@
-import { createStore, combineReducers, compose } from "redux";
-import firebase from "firebase";
-import "firebase/firestore";
-import { reactReduxFirebase, firebaseReducer } from "react-redux-firebase";
-import { reduxFirestore, firestoreReducer } from "redux-firestore";
+import { createStore, combineReducers, compose } from 'redux';
+import firebase from 'firebase';
+import 'firebase/firestore';
+import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase';
+import { reduxFirestore, firestoreReducer } from 'redux-firestore';
 
 // Reducers
-import notifyReducer from "./reducers/notifyReducer";
-import settingsReducer from "./reducers/settingsReducer";
+import notifyReducer from './reducers/notifyReducer';
+import settingsReducer from './reducers/settingsReducer';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyATJY_6Xgkhgz0kSC7uNfbgjGuaqejh9oI",
-  authDomain: "reactclientpanel-26bc1.firebaseapp.com",
-  databaseURL: "https://reactclientpanel-26bc1.firebaseio.com",
-  projectId: "reactclientpanel-26bc1",
-  storageBucket: "reactclientpanel-26bc1.appspot.com",
-  messagingSenderId: "400581036881"
+  apiKey: 'AIzaSyATJY_6Xgkhgz0kSC7uNfbgjGuaqejh9oI',
+  authDomain: 'reactclientpanel-26bc1.firebaseapp.com',
+  databaseURL: 'https://reactclientpanel-26bc1.firebaseio.com',
+  projectId: 'reactclientpanel-26bc1',
+  storageBucket: 'reactclientpanel-26bc1.appspot.com',
+  messagingSenderId: '400581036881'
 };
 
 // react-redux-firebase config
 const rrfConfig = {
-  userProfile: "users",
+  userProfile: 'users',
   useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
 };
 
@@ -45,8 +45,20 @@ const rootReducer = combineReducers({
   settings: settingsReducer
 });
 
+// Check for settings in localStorage
+if (localStorage.getItem('settings') === null) {
+  // Default settings
+  const defaultSettings = {
+    disableBalanceOnAdd: true,
+    disableBalanceOnEdit: false,
+    allowRegistration: false
+  };
+  // Set to localStorage
+  localStorage.setItem('settings', JSON.stringify(defaultSettings));
+}
+
 // Create initial state
-const initialState = {};
+const initialState = { settings: JSON.parse(localStorage.getItem('settings')) };
 // Create initial store
 const store = createStoreWithFirebase(
   rootReducer,
