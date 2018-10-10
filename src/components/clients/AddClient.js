@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-// import { compose } from "redux";
-// import { connect } from "react-redux";
-import { firestoreConnect } from 'react-redux-firebase';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 class AddClient extends Component {
   state = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    balance: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    balance: ""
   };
 
   onChange = e => {
@@ -26,16 +26,18 @@ class AddClient extends Component {
     const { firestore, history } = this.props;
 
     // If no balance, make 0
-    if (newClient.balance === '') {
+    if (newClient.balance === "") {
       newClient.balance = 0;
     }
 
     firestore
-      .add({ collection: 'clients' }, newClient)
-      .then(() => history.push('/'));
+      .add({ collection: "clients" }, newClient)
+      .then(() => history.push("/"));
   };
 
   render() {
+    const { disableBalanceOnAdd } = this.props.settings;
+
     return (
       <div>
         <div className="row">
@@ -104,6 +106,7 @@ class AddClient extends Component {
                   name="balance"
                   onChange={this.onChange}
                   value={this.state.balance}
+                  disabled={disableBalanceOnAdd}
                 />
               </div>
               <input
@@ -120,6 +123,12 @@ class AddClient extends Component {
 }
 
 AddClient.propTypes = {
-  firestore: PropTypes.object.isRequired
+  firestore: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired
 };
-export default firestoreConnect()(AddClient);
+export default compose(
+  firestoreConnect(),
+  connect((state, props) => ({
+    settings: state.settings
+  }))
+)(AddClient);
